@@ -28,7 +28,7 @@
         <DockPanel Grid.Row="1" Margin="10,0">
             <TextBlock Text="Univerysity Name:" Margin="0,0,10,0" ></TextBlock>
             <DockPanel>
-                <TextBox x:Name="university" mah:TextBoxHelper.Watermark="Type university name here" Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top">
+                <TextBox x:Name="university" mah:TextBoxHelper.Watermark="Name search" Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TextChanged">
                             <i:InvokeCommandAction Command="{Binding SearchUniversityCommand}"/>
@@ -67,7 +67,7 @@
         </DockPanel>
         <DockPanel Grid.Row="1" Grid.Column="1" Margin="10,0">
             <TextBlock Text="Country:" Margin="0,0,10,0" VerticalAlignment="Center"></TextBlock>
-            <ComboBox Height="30" mah:TextBoxHelper.AutoWatermark="True" mah:TextBoxHelper.Watermark="Select Country" 
+            <ComboBox Height="30" mah:TextBoxHelper.AutoWatermark="True" mah:TextBoxHelper.Watermark="Country Name" 
                      mah:TextBoxHelper.ClearTextButton="True"  ItemsSource="{Binding Countries}" SelectedItem="{Binding CountryName}"></ComboBox>
         </DockPanel>
     </Grid>
