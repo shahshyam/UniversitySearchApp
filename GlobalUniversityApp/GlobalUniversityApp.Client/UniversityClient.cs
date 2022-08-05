@@ -12,7 +12,7 @@ namespace GlobalUniversityApp.Client
         public UniversityClient()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("http://hipolabs.com");
+            _httpClient.BaseAddress = new Uri("http://universities.hipolabs.com");
         }
         public async Task<List<SearchResult>> GetUniversity(string universityName, string country)
         {
