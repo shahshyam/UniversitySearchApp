@@ -20,7 +20,7 @@ namespace GlobalUniversityApp.Tests.Client
         {
             var universityClient = new UniversityClient();
             var results = await universityClient.GetUniversity("pests", "");
-            Assert.False(results.Count == 1, "having invalid university ");
+            Assert.False(results.Count == 1, "Having invalid university ");
         }
         [Fact]
         public async void GetUniversity_ByCountry_ReturnTrue()
