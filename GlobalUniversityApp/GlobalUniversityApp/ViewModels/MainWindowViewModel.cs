@@ -144,7 +144,9 @@ namespace GlobalUniversityApp.ViewModels
             }
         }
 
-
+        /// <summary>
+        /// Dispay search result message
+        /// </summary>
         private string _searchMessage = String.Empty;
         public string SearchMessage
         {
@@ -156,6 +158,9 @@ namespace GlobalUniversityApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Display list of search result
+        /// </summary>
         private bool _hasContent = false;
         public bool HasContent
         {
@@ -167,6 +172,9 @@ namespace GlobalUniversityApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Flag is used for displaying not found result
+        /// </summary>
         private bool _hasNoContent = true;
         public bool HasNoContent
         {
