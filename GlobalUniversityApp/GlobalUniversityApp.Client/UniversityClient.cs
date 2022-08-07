@@ -24,11 +24,18 @@ namespace GlobalUniversityApp.Client
                 url += $"country={country}";
             else if(!string.IsNullOrEmpty(universityName))
                 url += $"name={universityName}";
-            var response = await _httpClient.GetAsync(url);
-            string content=await response.Content.ReadAsStringAsync();
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            try
             {
-                results = JsonConvert.DeserializeObject<List<SearchResult>>(content);
+                var response = await _httpClient.GetAsync(url);
+                string content = await response.Content.ReadAsStringAsync();
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    results = JsonConvert.DeserializeObject<List<SearchResult>>(content);
+                }
+            }
+            catch (Exception ex)
+            {
+                results = null;
             }
             return results;
         }

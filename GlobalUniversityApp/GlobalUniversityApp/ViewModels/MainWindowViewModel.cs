@@ -97,12 +97,12 @@ namespace GlobalUniversityApp.ViewModels
             {
                 return searchUniversityCommand ?? (searchUniversityCommand = new RelayCommand(async (x) =>
                 {
-                    SearchMessage=String.Empty;
+                    SearchMessage = String.Empty;
                     HasSearchResult = true;
                     HasContent = false;
                     var results = await _universityClient.GetUniversity(SearchText, CountryName);
                     Universities.Clear();
-                    if (results.Count > 0)
+                    if (results != null && results.Count > 0)
                     {
                         HasContent = true;
                         foreach (var result in results)

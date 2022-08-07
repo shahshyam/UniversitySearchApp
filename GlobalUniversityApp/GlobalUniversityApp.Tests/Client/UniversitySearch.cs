@@ -12,6 +12,7 @@ namespace GlobalUniversityApp.Tests.Client
         {
             var universityClient = new UniversityClient();
             var results = await universityClient.GetUniversity("pokhara","");
+            Assert.NotNull(results);
             Assert.True(results.Count == 1);
         }
 
@@ -20,6 +21,7 @@ namespace GlobalUniversityApp.Tests.Client
         {
             var universityClient = new UniversityClient();
             var results = await universityClient.GetUniversity("pests", "");
+            Assert.NotNull(results);
             Assert.False(results.Count == 1);
         }
         [Fact]
@@ -27,6 +29,7 @@ namespace GlobalUniversityApp.Tests.Client
         {
             var universityClient = new UniversityClient();
             var results = await universityClient.GetUniversity("", "Nepal");
+            Assert.NotNull(results);
             Assert.True(results.Count > 0);
         }
 
@@ -35,6 +38,7 @@ namespace GlobalUniversityApp.Tests.Client
         {
             var universityClient = new UniversityClient();
             var results = await universityClient.GetUniversity("", "Lepal");
+            Assert.NotNull(results);
             Assert.False(results.Count == 1);
         }
 
@@ -43,6 +47,7 @@ namespace GlobalUniversityApp.Tests.Client
         {
             var universityClient = new UniversityClient();
             var results = await universityClient.GetUniversity("Pokhara", "Nepal");
+            Assert.NotNull(results);
             Assert.True(results.Count == 1);
         }
         [Fact]
