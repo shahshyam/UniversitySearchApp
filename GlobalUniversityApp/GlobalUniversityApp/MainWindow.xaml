@@ -28,7 +28,7 @@
         <DockPanel Grid.Row="1" Margin="10,0">
             <TextBlock Text="Univerysity Name:" Margin="0,0,10,0" ></TextBlock>
             <DockPanel>
-                <TextBox x:Name="university" mah:TextBoxHelper.Watermark="Name search" Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top">
+                <TextBox x:Name="university" mah:TextBoxHelper.Watermark="Name search" mah:TextBoxHelper.ClearTextButton="True" Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TextChanged">
                             <i:InvokeCommandAction Command="{Binding SearchUniversityCommand}"/>

@@ -1,4 +1,5 @@
 ﻿using GlobalUniversityApp.Client;
+using GlobalUniversityApp.Helpers;
 using GlobalUniversityApp.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,7 @@ namespace GlobalUniversityApp
         private void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
             services.AddScoped<IUniversityClient, UniversityClient>();
+            services.AddScoped<TypeAssistant>();
             services.AddSingleton<MainWindowViewModel>();
             services.AddTransient<MainWindow>();
         }

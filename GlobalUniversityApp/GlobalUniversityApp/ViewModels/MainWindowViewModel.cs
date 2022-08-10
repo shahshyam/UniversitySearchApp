@@ -1,5 +1,6 @@
 ﻿using GlobalUniversityApp.Client;
 using GlobalUniversityApp.Commands;
+using GlobalUniversityApp.Helpers;
 using GlobalUniversityApp.Models;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace GlobalUniversityApp.ViewModels
@@ -15,10 +17,46 @@ namespace GlobalUniversityApp.ViewModels
     {
         private readonly IUniversityClient _universityClient;
         public ObservableCollection<University> Universities { get; set; }
-        public MainWindowViewModel(IUniversityClient universityClient)
+        private readonly TypeAssistant _typeAssistant;
+        private static object _lock = new object();
+        public MainWindowViewModel(IUniversityClient universityClient, TypeAssistant typeAssistant)
         {
             _universityClient = universityClient;
+            _typeAssistant = typeAssistant;
+            _typeAssistant.Idled += OntypeAssistantIdled;
             Universities = new ObservableCollection<University>();
+            BindingOperations.EnableCollectionSynchronization(Universities, _lock);
+        }
+
+        private async void OntypeAssistantIdled(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(SearchText) || !_allowToSearch)
+            {
+                _allowToSearch = true;
+                return;
+            }                
+            SearchMessage = String.Empty;
+            HasSearchResult = true;
+            HasContent = false;            
+            var results = await _universityClient.GetUniversity(SearchText, CountryName);           
+            Universities.Clear();
+            if (results != null && results.Count > 0)
+            {
+                HasContent = true;
+                foreach (var result in results)
+                {
+                    Universities.Add(new University()
+                    {
+                        Name = result.Name
+                    });
+                }
+                HasNoContent = false;
+            }
+            else
+            {
+                SearchMessage = "University name is not found";
+                HasNoContent = true;
+            }            
         }
 
         /// <summary>
@@ -89,36 +127,15 @@ namespace GlobalUniversityApp.ViewModels
                 OnPropertyChanged(nameof(SelectedUniversity));
             }
         }
-
+        private bool _allowToSearch = true;
         private ICommand searchUniversityCommand;
         public ICommand SearchUniversityCommand
         {
             get
             {
-                return searchUniversityCommand ?? (searchUniversityCommand = new RelayCommand(async (x) =>
+                return searchUniversityCommand ?? (searchUniversityCommand = new RelayCommand( (x) =>
                 {
-                    SearchMessage = String.Empty;
-                    HasSearchResult = true;
-                    HasContent = false;
-                    var results = await _universityClient.GetUniversity(SearchText, CountryName);
-                    Universities.Clear();
-                    if (results != null && results.Count > 0)
-                    {
-                        HasContent = true;
-                        foreach (var result in results)
-                        {
-                            Universities.Add(new University()
-                            {
-                                Name = result.Name
-                            });
-                        }
-                        HasNoContent = false;
-                    }
-                    else
-                    {
-                        SearchMessage = "University name is not found";
-                        HasNoContent = true;
-                    }
+                    _typeAssistant.TextChanged();                  
                 }
                 , (y) =>
                 {
@@ -137,7 +154,8 @@ namespace GlobalUniversityApp.ViewModels
                 {
                     if (SelectedUniversity != null)
                     {
-                        SearchText= SelectedUniversity.Name;
+                        _allowToSearch = false;
+                        SearchText = SelectedUniversity.Name;
                         HasSearchResult = false;
                     }
                 }));
